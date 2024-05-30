@@ -4,17 +4,14 @@ import { TaskForm } from '@/components/task-form/task-form';
 import { format } from 'date-fns';
 import { Task, TaskFields } from '@/types';
 import { DATE_FORMAT } from '@/constants';
-import { useTransition } from 'react';
-// import updateTask from '@/actions/update-task';
 import { taskFormSchema } from '@/components/task-form/task-form-schema';
+import { updateTask } from '@/services/tasks';
 
 interface TaskFormControlProps {
     task: Task;
 }
 
 export const TaskFormControl = ({ task }: TaskFormControlProps) => {
-    const [isPending, startTransition] = useTransition();
-
     const form = useForm<TaskFields>({
         resolver: zodResolver(taskFormSchema),
         defaultValues: {
@@ -25,15 +22,14 @@ export const TaskFormControl = ({ task }: TaskFormControlProps) => {
         },
     });
 
-    const handleSubmit = (values: TaskFields) => {
+    const handleSubmit = async (values: TaskFields) => {
         const formattedValues = {
             ...values,
             deadline: format(values.deadline, DATE_FORMAT),
         };
 
-        startTransition(async () => {
-            // await updateTask(task.id, formattedValues);
-        });
+        await updateTask(task.id, formattedValues);
+        // redirect('/tasks');
     };
 
     return <TaskForm form={form} onSubmit={handleSubmit} />;
