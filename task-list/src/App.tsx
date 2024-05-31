@@ -1,7 +1,7 @@
-import './App.css';
+import TasksPage from './routes/tasks';
 
 function App() {
-    return <div>Task List</div>;
+    return <TasksPage />;
 }
 
 export default App;
