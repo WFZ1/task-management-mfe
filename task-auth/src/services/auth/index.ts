@@ -30,12 +30,7 @@ export const logIn = async (data: AuthData) => {
 };
 
 export const signUp = async (data: AuthData) => {
-    const { error } = await db.auth.signUp({
-        ...data,
-        options: {
-            emailRedirectTo: `${origin}/auth/confirm`,
-        },
-    });
+    const { error } = await db.auth.signUp(data);
 
     if (error) {
         throw error;
