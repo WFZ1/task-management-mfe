@@ -1,4 +1,5 @@
-import { AuthData, signUp } from '@/services/auth';
+import { signUp } from '@/services/auth';
+import { AuthData } from '@/services/auth/types';
 import { useNavigate } from '@tanstack/react-router';
 
 export const useHandleSubmit = () => {

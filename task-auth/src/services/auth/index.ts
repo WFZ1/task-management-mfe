@@ -1,15 +1,6 @@
-import {
-    Session,
-    SignInWithPasswordCredentials,
-    SignUpWithPasswordCredentials,
-    Subscription,
-} from '@supabase/supabase-js';
+import { Session, SignInWithPasswordCredentials, Subscription } from '@supabase/supabase-js';
 import { db } from '../db';
-
-export interface AuthData {
-    email: string;
-    password: string;
-}
+import { AuthConfirmQueryParams, AuthData } from './types';
 
 let authSession: Session | null;
 let authSubscription: Subscription;
@@ -39,7 +30,12 @@ export const logIn = async (data: AuthData) => {
 };
 
 export const signUp = async (data: AuthData) => {
-    const { error } = await db.auth.signUp(data as unknown as SignUpWithPasswordCredentials);
+    const { error } = await db.auth.signUp({
+        ...data,
+        options: {
+            emailRedirectTo: `${origin}/auth/confirm`,
+        },
+    });
 
     if (error) {
         throw error;
@@ -54,4 +50,19 @@ export const signOut = async () => {
     }
 
     // redirect('/log-in');
+};
+
+export const authConfirm = async ({ token_hash, type }: AuthConfirmQueryParams) => {
+    if (token_hash && type) {
+        const { error } = await db.auth.verifyOtp({
+            type,
+            token_hash,
+        });
+
+        if (!error) {
+            location.replace('/');
+        }
+    }
+
+    location.replace('/error');
 };
