@@ -56,6 +56,7 @@ export const authConfirm = async ({ token_hash, type }: AuthConfirmQueryParams) 
 
         if (!error) {
             location.replace('/');
+            return;
         }
     }
 
