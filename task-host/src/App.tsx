@@ -1,15 +1,44 @@
-import './App.css';
 import TaskAuth from 'taskAuth/TaskAuth';
 import TaskEditor from 'taskEditor/TaskEditor';
 import TaskList from 'taskList/TaskList';
+import ErrorPage from './routes/error.tsx';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { PrivateRoute } from './routes/privateRoute.tsx';
+import { AuthProvider } from './services/auth/context.tsx';
+import HomePage from './routes/home.tsx';
+
+const router = createBrowserRouter([
+    {
+        errorElement: <ErrorPage />,
+    },
+    {
+        path: '/',
+        element: <HomePage />,
+    },
+    {
+        path: '/login',
+        element: <TaskAuth />,
+    },
+    {
+        element: <PrivateRoute />,
+        children: [
+            {
+                path: '/editor',
+                element: <TaskEditor />,
+            },
+            {
+                path: '/tasks',
+                element: <TaskList />,
+            },
+        ],
+    },
+]);
 
 function App() {
     return (
-        <div>
-            <TaskAuth />
-            <TaskEditor />
-            <TaskList />
-        </div>
+        <AuthProvider>
+            <RouterProvider router={router} />
+        </AuthProvider>
     );
 }
 

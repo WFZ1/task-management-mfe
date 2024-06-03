@@ -13,7 +13,6 @@
 import { Route as rootRoute } from './routes/__root'
 import { Route as SignUpImport } from './routes/sign-up'
 import { Route as LogInImport } from './routes/log-in'
-import { Route as ErrorImport } from './routes/error'
 import { Route as AuthConfirmImport } from './routes/auth/confirm'
 
 // Create/Update Routes
@@ -28,11 +27,6 @@ const LogInRoute = LogInImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const ErrorRoute = ErrorImport.update({
-  path: '/error',
-  getParentRoute: () => rootRoute,
-} as any)
-
 const AuthConfirmRoute = AuthConfirmImport.update({
   path: '/auth/confirm',
   getParentRoute: () => rootRoute,
@@ -42,13 +36,6 @@ const AuthConfirmRoute = AuthConfirmImport.update({
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/error': {
-      id: '/error'
-      path: '/error'
-      fullPath: '/error'
-      preLoaderRoute: typeof ErrorImport
-      parentRoute: typeof rootRoute
-    }
     '/log-in': {
       id: '/log-in'
       path: '/log-in'
@@ -76,7 +63,6 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 export const routeTree = rootRoute.addChildren({
-  ErrorRoute,
   LogInRoute,
   SignUpRoute,
   AuthConfirmRoute,
@@ -90,14 +76,10 @@ export const routeTree = rootRoute.addChildren({
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
-        "/error",
         "/log-in",
         "/sign-up",
         "/auth/confirm"
       ]
-    },
-    "/error": {
-      "filePath": "error.tsx"
     },
     "/log-in": {
       "filePath": "log-in.tsx"
