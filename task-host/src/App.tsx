@@ -6,6 +6,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { PrivateRoute } from './routes/privateRoute.tsx';
 import { AuthProvider } from './services/auth/context.tsx';
 import HomePage from './routes/home.tsx';
+import { AuthConfirmPage } from './routes/auth-confirm.tsx';
 
 const router = createBrowserRouter([
     {
@@ -18,6 +19,10 @@ const router = createBrowserRouter([
     {
         path: '/login',
         element: <TaskAuth />,
+    },
+    {
+        path: '/auth/confirm',
+        element: <AuthConfirmPage />,
     },
     {
         element: <PrivateRoute />,

@@ -1,5 +1,6 @@
 import { Session, Subscription } from '@supabase/supabase-js';
 import { db } from '../db';
+import { AuthConfirmQueryParams } from './types';
 
 let authSession: Session | null;
 let authSubscription: Subscription;
@@ -22,6 +23,17 @@ export const authInit = async () => {
 
 export const signOut = async () => {
     const { error } = await db.auth.signOut();
+
+    if (error) {
+        throw error;
+    }
+};
+
+export const authConfirm = async ({ token_hash, type }: AuthConfirmQueryParams) => {
+    const { error } = await db.auth.verifyOtp({
+        type,
+        token_hash,
+    });
 
     if (error) {
         throw error;

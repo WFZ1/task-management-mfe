@@ -8,7 +8,7 @@ export const AuthButton = () => {
 
     if (!user) {
         return (
-            <Link to="/log-in" className="py-2 px-3 flex rounded-md no-underline bg-secondary">
+            <Link to="/login" className="py-2 px-3 flex rounded-md no-underline bg-secondary">
                 Log in
             </Link>
         );
