@@ -1,8 +1,8 @@
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { createMemoryRouter, RouterProvider } from 'react-router-dom';
 import CreateTaskPage from '@/routes/create-task.tsx';
 import UpdateTaskPage from '@/routes/edit-task.tsx';
 
-const router = createBrowserRouter([
+const routes = [
     {
         path: '/create-task',
         element: <CreateTaskPage />,
@@ -11,7 +11,8 @@ const router = createBrowserRouter([
         path: '/edit-task',
         element: <UpdateTaskPage />,
     },
-]);
+];
+const router = createMemoryRouter(routes, { initialEntries: ['/create-task', '/edit-task'], initialIndex: 0 });
 
 function App() {
     return <RouterProvider router={router} />;
