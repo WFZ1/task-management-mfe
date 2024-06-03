@@ -7,6 +7,7 @@ import { PrivateRoute } from './routes/privateRoute.tsx';
 import { AuthProvider } from './services/auth/context.tsx';
 import HomePage from './routes/home.tsx';
 import { AuthConfirmPage } from './routes/auth-confirm.tsx';
+import { Header } from './components/header/header.tsx';
 
 const router = createBrowserRouter([
     {
@@ -29,11 +30,21 @@ const router = createBrowserRouter([
         children: [
             {
                 path: '/editor',
-                element: <TaskEditor />,
+                element: (
+                    <>
+                        <Header />
+                        <TaskEditor />
+                    </>
+                ),
             },
             {
                 path: '/tasks',
-                element: <TaskList />,
+                element: (
+                    <>
+                        <Header />
+                        <TaskList />
+                    </>
+                ),
             },
         ],
     },
