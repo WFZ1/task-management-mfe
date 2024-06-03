@@ -23,7 +23,7 @@ export const TaskFormControl = () => {
         };
 
         await createTask(formattedValues);
-        // redirect('/tasks');
+        // TODO: redirect to 'tasks'
     };
 
     return <TaskForm form={form} onSubmit={handleSubmit} />;

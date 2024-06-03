@@ -25,7 +25,6 @@ interface TasksTableProps {
 
 export function TasksTable({ data }: TasksTableProps) {
     const [tasks, setTasks] = useState<Task[]>([]);
-    // const router = useRouter();
 
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
     const [sorting, setSorting] = useState<SortingState>([]);
@@ -78,9 +77,9 @@ export function TasksTable({ data }: TasksTableProps) {
                     cell: ({ row }: { row: Row<Task> }) => (
                         <DataTableRowActions
                             onDelete={() => handleTaskDeletion(row.original.id)}
-                            // TODO: implement routing on edit option click
-                            onEdit={() => {}}
+                            // TODO: redirect to `/edit-task?id=${row.original.id}`
                             // onEdit={() => router.push(`/edit-task?id=${row.original.id}`)}
+                            onEdit={() => {}}
                         />
                     ),
                 };
@@ -88,7 +87,7 @@ export function TasksTable({ data }: TasksTableProps) {
 
             return column;
         });
-    }, [toggleTaskCompletion, handleTaskDeletion /*, router*/]);
+    }, [toggleTaskCompletion, handleTaskDeletion]);
 
     const table = useReactTable({
         data: tasks,

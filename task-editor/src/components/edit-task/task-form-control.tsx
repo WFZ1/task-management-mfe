@@ -29,7 +29,7 @@ export const TaskFormControl = ({ task }: TaskFormControlProps) => {
         };
 
         await updateTask(task.id, formattedValues);
-        // redirect('/tasks');
+        // TODO: redirect to 'tasks'
     };
 
     return <TaskForm form={form} onSubmit={handleSubmit} />;

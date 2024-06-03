@@ -8,6 +8,7 @@ export const useHandleSubmit = () => {
     const handleSubmit = async (data: AuthData) => {
         try {
             await logIn(data);
+            // TODO: redirect to '/' (check that code on line below works)
             navigate({ to: '/' });
         } catch (error) {
             console.error('Error user sign in: ', error);
