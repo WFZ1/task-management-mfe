@@ -1,21 +1,25 @@
 import { logIn } from '@/services/auth';
 import { AuthData } from '@/services/auth/types';
-import { useNavigate } from '@tanstack/react-router';
+// TODO: use code with correct router
+// import { useNavigate } from '@tanstack/react-router';
 
 export const useHandleSubmit = () => {
-    const navigate = useNavigate();
+    // TODO: use code with correct router
+    // const navigate = useNavigate();
 
     const handleSubmit = async (data: AuthData) => {
         try {
             await logIn(data);
+            // TODO: use code with correct router
             // TODO: redirect to '/' (check that code on line below works)
-            navigate({ to: '/' });
+            // navigate({ to: '/' });
         } catch (error) {
             console.error('Error user sign in: ', error);
-            navigate({
-                to: '/log-in',
-                search: { message: 'Could not authenticate user' },
-            });
+            // TODO: use code with correct router
+            // navigate({
+            //     to: '/log-in',
+            //     search: { message: 'Could not authenticate user' },
+            // });
         }
     };
 

@@ -2,6 +2,23 @@ import path from 'path';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import federation from '@originjs/vite-plugin-federation';
+import { dependencies } from './package.json';
+
+const generateSharedConfig = (dependencies: Record<string, string>) => {
+    const sharedConfig: Record<string, { requiredVersion: string; import: boolean }> = {};
+
+    Object.keys(dependencies).forEach((dependencyName) => {
+        if (['@radix-ui/react-slot'].includes(dependencyName)) return;
+        sharedConfig[dependencyName] = {
+            requiredVersion: dependencies[dependencyName],
+            import: false,
+        };
+    });
+
+    return sharedConfig;
+};
+
+console.log('SharedConfig', generateSharedConfig(dependencies));
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -14,16 +31,28 @@ export default defineConfig({
                 taskEditor: 'http://localhost:5002/assets/remoteEntry.js',
                 taskList: 'http://localhost:5003/assets/remoteEntry.js',
             },
-            shared: {
-                react: {
-                    requiredVersion: '^18.2.0',
-                    import: false,
-                },
-                'react-dom': {
-                    requiredVersion: '^18.2.0',
-                    import: false,
-                },
-            },
+            // TODO: adjust shared packages
+            shared: ['react', 'react-dom'],
+            // Not work in production mode
+            // shared: generateSharedConfig(dependencies),
+            // shared: {
+            //     react: { requiredVersion: '^18.2.0', import: false },
+            //     'react-dom': { requiredVersion: '^18.2.0', import: false },
+            //     '@supabase/supabase-js': { requiredVersion: '^2.43.4', import: false },
+            //     'lucide-react': { requiredVersion: '^0.383.0', import: false },
+            // },
+            // shared: {
+            //     '@radix-ui/react-slot': { requiredVersion: '^1.0.2', import: false },
+            //     '@supabase/supabase-js': { requiredVersion: '^2.43.4', import: false },
+            //     'class-variance-authority': { requiredVersion: '^0.7.0', import: false },
+            //     clsx: { requiredVersion: '^2.1.1', import: false },
+            //     'lucide-react': { requiredVersion: '^0.383.0', import: false },
+            //     react: { requiredVersion: '^18.2.0', import: false },
+            //     'react-dom': { requiredVersion: '^18.2.0', import: false },
+            //     'react-router-dom': { requiredVersion: '^6.23.1', import: false },
+            //     'tailwind-merge': { requiredVersion: '^2.3.0', import: false },
+            //     'tailwindcss-animate': { requiredVersion: '^1.0.7', import: false }
+            //   }
         }),
     ],
     build: {
