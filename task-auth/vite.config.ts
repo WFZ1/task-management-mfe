@@ -1,7 +1,9 @@
 import path from 'path';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import { TanStackRouterVite } from '@tanstack/router-vite-plugin';
+// Due to errors tanstack-router when running task-auth mfe from host mfe.
+// Temporary solution is to use react-router.
+// import { TanStackRouterVite } from '@tanstack/router-vite-plugin';
 import federation from '@originjs/vite-plugin-federation';
 import { dependencies } from './package.json';
 
@@ -23,7 +25,9 @@ console.log('SharedConfig', generateSharedConfig(dependencies));
 export default defineConfig({
     plugins: [
         react(),
-        TanStackRouterVite(),
+        // Due to errors tanstack-router when running task-auth mfe from host mfe.
+        // Temporary solution is to use react-router.
+        // TanStackRouterVite(),
         federation({
             name: 'task-auth',
             filename: 'remoteEntry.js',
