@@ -3,6 +3,7 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import federation from '@originjs/vite-plugin-federation';
 import { dependencies } from './package.json';
+import 'dotenv/config';
 
 const generateSharedConfig = (dependencies: Record<string, string>) => {
     const sharedConfig: Record<string, { requiredVersion: string; import: boolean }> = {};
@@ -27,9 +28,9 @@ export default defineConfig({
         federation({
             name: 'task-host',
             remotes: {
-                taskAuth: 'http://localhost:5001/assets/remoteEntry.js',
-                taskEditor: 'http://localhost:5002/assets/remoteEntry.js',
-                taskList: 'http://localhost:5003/assets/remoteEntry.js',
+                taskAuth: process.env.VITE_PUBLIC_TASK_AUTH_MFE_URL!,
+                taskEditor: process.env.VITE_PUBLIC_TASK_EDITOR_MFE_URL!,
+                taskList: process.env.VITE_PUBLIC_TASK_LIST_MFE_URL!,
             },
             // TODO: adjust shared packages
             shared: ['react', 'react-dom'],
