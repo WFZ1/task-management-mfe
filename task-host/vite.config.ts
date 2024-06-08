@@ -3,6 +3,8 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import federation from '@originjs/vite-plugin-federation';
 import { dependencies } from './package.json';
+// Due to import.meta.env not work in this file, dotenv package used
+// TODO: investigate how to get env variables via vite default solutions
 import 'dotenv/config';
 
 const generateSharedConfig = (dependencies: Record<string, string>) => {
@@ -28,9 +30,9 @@ export default defineConfig({
         federation({
             name: 'task-host',
             remotes: {
-                taskAuth: process.env.VITE_PUBLIC_TASK_AUTH_MFE_URL!,
-                taskEditor: process.env.VITE_PUBLIC_TASK_EDITOR_MFE_URL!,
-                taskList: process.env.VITE_PUBLIC_TASK_LIST_MFE_URL!,
+                taskAuth: `${process.env.VITE_PUBLIC_TASK_AUTH_MFE_URL!}/assets/remoteEntry.js`,
+                taskEditor: `${process.env.VITE_PUBLIC_TASK_EDITOR_MFE_URL!}/assets/remoteEntry.js`,
+                taskList: `${process.env.VITE_PUBLIC_TASK_LIST_MFE_URL!}/assets/remoteEntry.js`,
             },
             // TODO: adjust shared packages
             shared: ['react', 'react-dom'],
