@@ -8,7 +8,9 @@ export const Tasks = () => {
 
     // TODO: add loading state
     useEffect(() => {
-        getTasks().then((data) => setTasks(data));
+        getTasks()
+            .then((data) => setTasks(data))
+            .catch((error) => console.error('Error getting tasks: ', error));
     }, []);
 
     return <TasksTable data={tasks ?? []} />;

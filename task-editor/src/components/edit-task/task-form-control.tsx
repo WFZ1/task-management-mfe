@@ -6,12 +6,15 @@ import { Task, TaskFields } from '@/types';
 import { DATE_FORMAT } from '@/constants';
 import { taskFormSchema } from '@/components/task-form/task-form-schema';
 import { updateTask } from '@/services/tasks';
+import { useNavigation } from '@/services/navigation/context';
 
 interface TaskFormControlProps {
     task: Task;
 }
 
 export const TaskFormControl = ({ task }: TaskFormControlProps) => {
+    const { navigate } = useNavigation();
+
     const form = useForm<TaskFields>({
         resolver: zodResolver(taskFormSchema),
         defaultValues: {
@@ -28,8 +31,12 @@ export const TaskFormControl = ({ task }: TaskFormControlProps) => {
             deadline: format(values.deadline, DATE_FORMAT),
         };
 
-        await updateTask(task.id, formattedValues);
-        // TODO: redirect to 'tasks'
+        try {
+            await updateTask(task.id, formattedValues);
+            navigate({ to: '/tasks', isHost: true });
+        } catch (error) {
+            console.error('Error updating task: ', error);
+        }
     };
 
     return <TaskForm form={form} onSubmit={handleSubmit} />;

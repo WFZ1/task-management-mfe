@@ -13,7 +13,9 @@ export const Task = ({ id }: TaskProps) => {
     // TODO: add loading state
     useEffect(() => {
         if (id) {
-            getTask(id).then((data) => setTask(data));
+            getTask(id)
+                .then((data) => setTask(data))
+                .catch((error) => console.error('Error getting task: ', error));
         }
     }, [id]);
 

@@ -6,8 +6,11 @@ import { TaskFields } from '@/types';
 import { DATE_FORMAT } from '@/constants';
 import { taskFormSchema } from '@/components/task-form/task-form-schema';
 import { createTask } from '@/services/tasks';
+import { useNavigation } from '@/services/navigation/context';
 
 export const TaskFormControl = () => {
+    const { navigate } = useNavigation();
+
     const form = useForm<TaskFields>({
         resolver: zodResolver(taskFormSchema),
         defaultValues: {
@@ -22,8 +25,12 @@ export const TaskFormControl = () => {
             deadline: format(values.deadline, DATE_FORMAT),
         };
 
-        await createTask(formattedValues);
-        // TODO: redirect to 'tasks'
+        try {
+            await createTask(formattedValues);
+            navigate({ to: '/tasks', isHost: true });
+        } catch (error) {
+            console.error('Error inserting task to db: ', error);
+        }
     };
 
     return <TaskForm form={form} onSubmit={handleSubmit} />;

@@ -6,7 +6,6 @@ export const getTask = async (taskId: Task['id']): Promise<Task | null | undefin
     const { data, error }: DBQueryResponse<Task> = await db.from('tasks').select().eq('id', taskId).single();
 
     if (error) {
-        console.error('Error getting task: ', error);
         throw error;
     }
 
@@ -17,7 +16,6 @@ export const createTask = async (task: Omit<Task, 'id' | 'isCompleted'>) => {
     const { error } = await db.from('tasks').insert(task);
 
     if (error) {
-        console.error('Error inserting task to db: ', error);
         throw error;
     }
 };
@@ -26,7 +24,6 @@ export const updateTask = async (taskId: Task['id'], taskData: Omit<Task, 'id' |
     const { error } = await db.from('tasks').update(taskData).eq('id', taskId);
 
     if (error) {
-        console.error('Error updating task: ', error);
         throw error;
     }
 };

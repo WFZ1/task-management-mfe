@@ -1,20 +1,37 @@
 import { createMemoryRouter, RouterProvider } from 'react-router-dom';
 import CreateTaskPage from '@/routes/create-task.tsx';
 import UpdateTaskPage from '@/routes/edit-task.tsx';
+import { NavigationProvider } from './services/navigation/context';
+import { FunctionComponent } from 'react';
 
-const routes = [
+interface AppProps {
+    onNavigate?(path: string): void;
+}
+
+const withNavigationProvider = (Component: FunctionComponent, onNavigate: AppProps['onNavigate']) => {
+    return (
+        <NavigationProvider onNavigate={onNavigate}>
+            <Component />
+        </NavigationProvider>
+    );
+};
+
+const createRoutes = (onNavigate: AppProps['onNavigate']) => [
     {
         path: '/create-task',
-        element: <CreateTaskPage />,
+        element: withNavigationProvider(CreateTaskPage, onNavigate),
     },
     {
         path: '/edit-task',
-        element: <UpdateTaskPage />,
+        element: withNavigationProvider(UpdateTaskPage, onNavigate),
     },
 ];
-const router = createMemoryRouter(routes, { initialEntries: ['/create-task', '/edit-task'], initialIndex: 0 });
+const createRouter = (onNavigate: AppProps['onNavigate']) =>
+    createMemoryRouter(createRoutes(onNavigate), { initialEntries: ['/create-task', '/edit-task'], initialIndex: 0 });
 
-function App() {
+function App({ onNavigate }: AppProps) {
+    const router = createRouter(onNavigate);
+
     return <RouterProvider router={router} />;
 }
 

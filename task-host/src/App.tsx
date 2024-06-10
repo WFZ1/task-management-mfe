@@ -1,13 +1,12 @@
-import TaskAuth from 'taskAuth/TaskAuth';
-import TaskEditor from 'taskEditor/TaskEditor';
-import TaskList from 'taskList/TaskList';
 import ErrorPage from './routes/error.tsx';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { PrivateRoute } from './routes/privateRoute.tsx';
 import { AuthProvider } from './services/auth/context.tsx';
 import HomePage from './routes/home.tsx';
 import { AuthConfirmPage } from './routes/auth-confirm.tsx';
-import { Header } from './components/header/header.tsx';
+import LoginPage from './routes/login.tsx';
+import EditorPage from './routes/editor.tsx';
+import TasksPage from './routes/tasks.tsx';
 
 const router = createBrowserRouter([
     {
@@ -19,7 +18,7 @@ const router = createBrowserRouter([
     },
     {
         path: '/login',
-        element: <TaskAuth />,
+        element: <LoginPage />,
     },
     {
         path: '/auth/confirm',
@@ -30,21 +29,11 @@ const router = createBrowserRouter([
         children: [
             {
                 path: '/editor',
-                element: (
-                    <>
-                        <Header />
-                        <TaskEditor />
-                    </>
-                ),
+                element: <EditorPage />,
             },
             {
                 path: '/tasks',
-                element: (
-                    <>
-                        <Header />
-                        <TaskList />
-                    </>
-                ),
+                element: <TasksPage />,
             },
         ],
     },

@@ -18,12 +18,14 @@ import { Task } from '@/types';
 import { Checkbox } from '@/components/ui/checkbox';
 import { DataTableRowActions } from '@/components/ui/data-table/data-table-row-actions';
 import { completeTask, deleteTask } from '@/services/tasks';
+import { useNavigation } from '@/services/navigation/context';
 
 interface TasksTableProps {
     data: Task[];
 }
 
 export function TasksTable({ data }: TasksTableProps) {
+    const { navigate } = useNavigation();
     const [tasks, setTasks] = useState<Task[]>([]);
 
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -41,8 +43,12 @@ export function TasksTable({ data }: TasksTableProps) {
                 return { ...task, isCompleted: isCompleted };
             });
 
-            await completeTask(taskId, isCompleted);
-            setTasks(updatedTasks);
+            try {
+                await completeTask(taskId, isCompleted);
+                setTasks(updatedTasks);
+            } catch (error) {
+                console.error('Error completing task: ', error);
+            }
         },
         [tasks]
     );
@@ -51,8 +57,12 @@ export function TasksTable({ data }: TasksTableProps) {
         async (taskId: Task['id']) => {
             const updatedTasks = tasks.filter((task) => task.id !== taskId);
 
-            await deleteTask(taskId);
-            setTasks(updatedTasks);
+            try {
+                await deleteTask(taskId);
+                setTasks(updatedTasks);
+            } catch (error) {
+                console.error('Error deleting task: ', error);
+            }
         },
         [tasks]
     );
@@ -77,9 +87,7 @@ export function TasksTable({ data }: TasksTableProps) {
                     cell: ({ row }: { row: Row<Task> }) => (
                         <DataTableRowActions
                             onDelete={() => handleTaskDeletion(row.original.id)}
-                            // TODO: redirect to `/edit-task?id=${row.original.id}`
-                            // onEdit={() => router.push(`/edit-task?id=${row.original.id}`)}
-                            onEdit={() => {}}
+                            onEdit={() => navigate({ to: `/editor?id=${row.original.id}`, isHost: true })}
                         />
                     ),
                 };
@@ -87,7 +95,7 @@ export function TasksTable({ data }: TasksTableProps) {
 
             return column;
         });
-    }, [toggleTaskCompletion, handleTaskDeletion]);
+    }, [toggleTaskCompletion, handleTaskDeletion, navigate]);
 
     const table = useReactTable({
         data: tasks,

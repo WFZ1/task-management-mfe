@@ -1,6 +1,8 @@
 import { createMemoryRouter, RouterProvider, useSearchParams } from 'react-router-dom';
 import { LogIn } from '@/components/log-in/log-in';
 import { SignUp } from '@/components/sign-up/sign-up';
+import { NavigationProvider } from './services/navigation/context';
+import { FunctionComponent } from 'react';
 
 function LogInPage() {
     const [searchParams] = useSearchParams();
@@ -14,20 +16,35 @@ function SignUpPage() {
     return <SignUp message={searchParams.get('message') ?? undefined} />;
 }
 
-const routes = [
+interface AppProps {
+    onNavigate?(path: string): void;
+}
+
+const withNavigationProvider = (Component: FunctionComponent, onNavigate: AppProps['onNavigate']) => {
+    return (
+        <NavigationProvider onNavigate={onNavigate}>
+            <Component />
+        </NavigationProvider>
+    );
+};
+
+const createRoutes = (onNavigate: AppProps['onNavigate']) => [
     {
         path: '/log-in',
-        element: <LogInPage />,
+        element: withNavigationProvider(LogInPage, onNavigate),
     },
     {
         path: '/sign-up',
-        element: <SignUpPage />,
+        element: withNavigationProvider(SignUpPage, onNavigate),
     },
 ];
 
-const router = createMemoryRouter(routes, { initialEntries: ['/log-in', '/sign-up'], initialIndex: 0 });
+const createRouter = (onNavigate: AppProps['onNavigate']) =>
+    createMemoryRouter(createRoutes(onNavigate), { initialEntries: ['/log-in', '/sign-up'], initialIndex: 0 });
 
-function App() {
+function App({ onNavigate }: AppProps) {
+    const router = createRouter(onNavigate);
+
     return <RouterProvider router={router} />;
 }
 
