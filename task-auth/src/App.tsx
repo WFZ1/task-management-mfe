@@ -4,6 +4,10 @@
 // import { RouterProvider, createRouter, createMemoryHistory } from '@tanstack/react-router';
 // import { routeTree } from './routeTree.gen';
 
+interface AppProps {
+    onNavigate?(path: string): void;
+}
+
 // const memoryHistory = createMemoryHistory({
 //     initialEntries: ['/log-in', '/sign-up'],
 // });
@@ -24,8 +28,8 @@
 
 import AppReactRouter from './AppReactRouter.tsx';
 
-function App() {
-    return <AppReactRouter />;
+function App({ onNavigate }: AppProps) {
+    return <AppReactRouter onNavigate={onNavigate} />;
 }
 
 export default App;
