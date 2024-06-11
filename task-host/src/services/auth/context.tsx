@@ -3,17 +3,17 @@ import { authInit } from '.';
 import { Session } from '@supabase/supabase-js';
 
 interface AuthContextDefaultValue {
-    isAuth?: boolean;
+    session?: Session | null;
 }
 
 const AuthContext = createContext<AuthContextDefaultValue>({
-    isAuth: undefined,
+    session: undefined,
 });
 
 interface AuthProviderProps extends PropsWithChildren {}
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
-    const [session, setSession] = useState<Session | null>(null);
+    const [session, setSession] = useState<Session | null>();
 
     useEffect(() => {
         let unsubscribe;
@@ -26,7 +26,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         return unsubscribe;
     }, []);
 
-    const authValue = { isAuth: Boolean(session) };
+    const authValue = { session };
 
     return <AuthContext.Provider value={authValue}>{children}</AuthContext.Provider>;
 };
