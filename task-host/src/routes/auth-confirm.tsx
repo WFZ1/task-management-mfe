@@ -1,28 +1,34 @@
 import { authConfirm } from '@/services/auth';
-import { AuthConfirmQueryParams } from '@/services/auth/types';
+import { EmailOtpType } from '@supabase/supabase-js';
 import { useEffect, useRef } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 export const AuthConfirmPage = () => {
     const navigate = useNavigate();
     const isMounted = useRef(false);
-    const [searchParams] = useSearchParams() as unknown as [AuthConfirmQueryParams];
 
     useEffect(() => {
         if (!isMounted.current) {
             isMounted.current = true;
-            const { token_hash, type } = searchParams;
+
+            const searchParams = new URLSearchParams(location.search);
+            const token_hash = searchParams.get('token_hash');
+            const type = searchParams.get('type') as EmailOtpType;
 
             if (!token_hash || !type) {
                 console.error('Missed required params');
                 navigate('/error');
+                return;
             }
 
-            authConfirm(searchParams)
+            authConfirm({ token_hash, type })
                 .then(() => navigate('/'))
-                .catch(() => navigate('/error'));
+                .catch((error) => {
+                    console.error('Error confirm user login: ', error);
+                    navigate('/error');
+                });
         }
-    }, [searchParams, navigate]);
+    }, [navigate]);
 
     return null;
 };
