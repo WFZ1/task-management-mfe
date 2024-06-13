@@ -1,9 +1,8 @@
-import { SignInWithPasswordCredentials } from '@supabase/supabase-js';
 import { db } from '../db';
 import { AuthData } from './types';
 
 export const logIn = async (data: AuthData) => {
-    const { error } = await db.auth.signInWithPassword(data as unknown as SignInWithPasswordCredentials);
+    const { error } = await db.auth.signInWithPassword(data);
 
     if (error) {
         throw error;

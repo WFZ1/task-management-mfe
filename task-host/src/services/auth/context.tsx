@@ -1,6 +1,6 @@
 import { PropsWithChildren, createContext, useContext, useState, useEffect } from 'react';
-import { authInit } from '.';
 import { Session } from '@supabase/supabase-js';
+import { db } from '../db';
 
 interface AuthContextDefaultValue {
     session?: Session | null;
@@ -16,14 +16,15 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     const [session, setSession] = useState<Session | null>();
 
     useEffect(() => {
-        let unsubscribe;
-
-        authInit().then(({ getAuthSession, authUnsubscribe }) => {
-            setSession(getAuthSession());
-            unsubscribe = authUnsubscribe;
+        db.auth.getSession().then(({ data }) => {
+            setSession(data.session);
         });
 
-        return unsubscribe;
+        const authEventOpts = db.auth.onAuthStateChange((_event, session) => {
+            setSession(session);
+        });
+
+        return authEventOpts.data.subscription.unsubscribe;
     }, []);
 
     const authValue = { session };
