@@ -10,11 +10,9 @@ import TasksPage from './routes/tasks.tsx';
 
 const router = createBrowserRouter([
     {
-        errorElement: <ErrorPage />,
-    },
-    {
         path: '/',
         element: <HomePage />,
+        errorElement: <ErrorPage />,
     },
     {
         path: '/login',
