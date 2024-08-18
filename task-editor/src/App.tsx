@@ -1,35 +1,38 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { createMemoryRouter, RouterProvider } from 'react-router-dom';
+import CreateTaskPage from '@/routes/create-task.tsx';
+import UpdateTaskPage from '@/routes/edit-task.tsx';
+import { NavigationProvider } from './services/navigation/context';
+import { FunctionComponent } from 'react';
 
-function App() {
-  const [count, setCount] = useState(0)
-
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+interface AppProps {
+    onNavigate?(path: string): void;
 }
 
-export default App
+const withNavigationProvider = (Component: FunctionComponent, onNavigate: AppProps['onNavigate']) => {
+    return (
+        <NavigationProvider onNavigate={onNavigate}>
+            <Component />
+        </NavigationProvider>
+    );
+};
+
+const createRoutes = (onNavigate: AppProps['onNavigate']) => [
+    {
+        path: '/create-task',
+        element: withNavigationProvider(CreateTaskPage, onNavigate),
+    },
+    {
+        path: '/edit-task',
+        element: withNavigationProvider(UpdateTaskPage, onNavigate),
+    },
+];
+const createRouter = (onNavigate: AppProps['onNavigate']) =>
+    createMemoryRouter(createRoutes(onNavigate), { initialEntries: ['/create-task', '/edit-task'], initialIndex: 0 });
+
+function App({ onNavigate }: AppProps) {
+    const router = createRouter(onNavigate);
+
+    return <RouterProvider router={router} />;
+}
+
+export default App;
