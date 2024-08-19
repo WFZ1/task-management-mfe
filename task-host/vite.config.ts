@@ -3,9 +3,10 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import federation from '@originjs/vite-plugin-federation';
 import { dependencies } from './package.json';
+
 // Due to import.meta.env not work in this file, dotenv package used
-// TODO: investigate how to get env variables via vite default solutions
-import 'dotenv/config';
+import dotenv from 'dotenv';
+dotenv.config({ path: '.env.local' });
 
 const generateSharedConfig = (dependencies: Record<string, string>) => {
     const sharedConfig: Record<string, { requiredVersion: string; import: boolean }> = {};
