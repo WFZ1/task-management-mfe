@@ -31,9 +31,9 @@ export default defineConfig({
         federation({
             name: 'task-host',
             remotes: {
-                taskAuth: `${process.env.VITE_PUBLIC_TASK_AUTH_MFE_URL!}/assets/remoteEntry.js`,
-                taskEditor: `${process.env.VITE_PUBLIC_TASK_EDITOR_MFE_URL!}/assets/remoteEntry.js`,
-                taskList: `${process.env.VITE_PUBLIC_TASK_LIST_MFE_URL!}/assets/remoteEntry.js`,
+                taskAuth: `${process.env.TASK_AUTH_MFE_URL!}/assets/remoteEntry.js`,
+                taskEditor: `${process.env.TASK_EDITOR_MFE_URL!}/assets/remoteEntry.js`,
+                taskList: `${process.env.TASK_LIST_MFE_URL!}/assets/remoteEntry.js`,
             },
             // TODO: adjust shared packages
             shared: ['react', 'react-dom'],
