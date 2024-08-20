@@ -1,35 +1,39 @@
-// Due to errors tanstack-router when running task-auth mfe from host mfe.
-// Temporary solution is to use react-router.
-
-// import { RouterProvider, createRouter, createMemoryHistory } from '@tanstack/react-router';
-// import { routeTree } from './routeTree.gen';
+import { createMemoryRouter, RouterProvider } from 'react-router-dom';
+import { NavigationProvider } from './services/navigation/context';
+import { FunctionComponent } from 'react';
+import { LogInPage } from './routes/log-in';
+import { SignUpPage } from './routes/sign-up';
 
 interface AppProps {
     onNavigate?(path: string): void;
 }
 
-// const memoryHistory = createMemoryHistory({
-//     initialEntries: ['/log-in', '/sign-up'],
-// });
+const withNavigationProvider = (Component: FunctionComponent, onNavigate: AppProps['onNavigate']) => {
+    return (
+        <NavigationProvider onNavigate={onNavigate}>
+            <Component />
+        </NavigationProvider>
+    );
+};
 
-// const router = createRouter({ routeTree, history: memoryHistory });
+const createRoutes = (onNavigate: AppProps['onNavigate']) => [
+    {
+        path: '/log-in',
+        element: withNavigationProvider(LogInPage, onNavigate),
+    },
+    {
+        path: '/sign-up',
+        element: withNavigationProvider(SignUpPage, onNavigate),
+    },
+];
 
-// declare module '@tanstack/react-router' {
-//     interface Register {
-//         router: typeof router;
-//     }
-// }
-
-// function App() {
-//     return <RouterProvider router={router} />;
-// }
-
-// export default App;
-
-import AppReactRouter from './AppReactRouter.tsx';
+const createRouter = (onNavigate: AppProps['onNavigate']) =>
+    createMemoryRouter(createRoutes(onNavigate), { initialEntries: ['/log-in', '/sign-up'], initialIndex: 0 });
 
 function App({ onNavigate }: AppProps) {
-    return <AppReactRouter onNavigate={onNavigate} />;
+    const router = createRouter(onNavigate);
+
+    return <RouterProvider router={router} />;
 }
 
 export default App;

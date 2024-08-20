@@ -1,6 +1,4 @@
 import { PropsWithChildren, createContext, useContext } from 'react';
-// TODO: use code with correct router
-// import { useNavigate } from '@tanstack/react-router';
 import { useNavigate } from 'react-router-dom';
 
 interface NavigateParams<T> {

@@ -1,8 +1,6 @@
 import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { PropsWithChildren } from 'react';
-// TODO: use code with correct router
-// import { Link } from '@tanstack/react-router';
 import { Link } from 'react-router-dom';
 
 interface UserAuthLinkProps extends PropsWithChildren {
