@@ -1,4 +1,4 @@
-The four task management applications that are implemented the micro frontend architecture.
+The four task management applications that are implemented the micro frontend architecture.  
 Made with **React**, **Vite** and **Vite Module Federation Plugin**.
 
 -   Tasks have a name, description, deadline, priority and status (completed/not completed).
@@ -14,14 +14,14 @@ Made with **React**, **Vite** and **Vite Module Federation Plugin**.
 
 ## Structure
 
-**task-auth** app handles user authentication.
-**task-editor** app is for creating and editing tasks.
-**task-list** app is for the displaying and filtering tasks.
+**task-auth** app handles user authentication.  
+**task-editor** app is for creating and editing tasks.  
+**task-list** app is for the displaying and filtering tasks.  
 **task-host** app is a host application that integrates all subsidiary micro frontends.
 
 ## Hosting
 
-Vercel: https://task-host.vercel.app/
+Vercel: https://task-host.vercel.app/  
 AWS CloudFront: https://d3smx9ac9s8t0.cloudfront.net/
 
 ## Run app
@@ -33,6 +33,6 @@ AWS CloudFront: https://d3smx9ac9s8t0.cloudfront.net/
 
 ## Manually Deployment Instructions to Vercel
 
-1. Navigate to each micro frontend: `cd task-[mfe-name]`
+1. Navigate to each micro frontend: `cd [mfe-folder-name]`
 2. Set up and deploy: `npx vercel`
 3. Deploy to production: `npx vercel --prod`
