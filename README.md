@@ -11,7 +11,6 @@ Made with **React**, **Vite** and **Vite Module Federation Plugin**.
 -   User sign up and log in functionality is implemented using Supabase Auth.
 -   The micro frontend architecture is implemented using **Vite** and the **Vite Module Federation Plugin**.
 -   The application is deployed on Vercel and AWS CloudFront.
--   Full CI/CD using Github Actions.
 
 ## Structure
 
