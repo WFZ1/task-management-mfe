@@ -31,3 +31,9 @@ AWS CloudFront: https://d3smx9ac9s8t0.cloudfront.net/
 2. Install dependencies: `npm i`
 3. Build the project: `npm build`
 4. Preview the build: `npm preview`
+
+## Manually Deployment Instructions to Vercel
+
+1. Navigate to each micro frontend: `cd task-[mfe-name]`
+2. Set up and deploy: `npx vercel`
+3. Deploy to production: `npx vercel --prod`
